@@ -1,4 +1,5 @@
 
+
 import csv
 import blescan
 import sys
@@ -14,8 +15,22 @@ from checkInternet import checkInternet
 os.system('sudo systemctl start bluetooth')
 
 
+def getserial():
+  # Extract serial from cpuinfo file
+  cpuserial = "0000000000000000"
+  try:
+    f = open('/proc/cpuinfo','r')
+    for line in f:
+      if line[0:6]=='Serial':
+        cpuserial = line[10:26]
+    f.close()
+  except:
+    cpuserial = "ERROR000000000"
 
-def scanble():
+  return cpuserial
+
+
+def scanble(comp):
     dev_id = 0
     try:
     	sock = bluez.hci_open_dev(dev_id)
@@ -40,8 +55,8 @@ def scanble():
 	for beacon in finalList:
             stamp = time.time()
 	    beacon = beacon.replace("\"","")
-	    macID = get_mac()
-	    c.write(str(macID)+","+str(stamp)+","+beacon+"\n")
+	    macID = getserial()
+	    c.write(str(macID)+","+str(stamp)+","+beacon+",ble_"+str(comp)+"\n")
 	stop = stop + 1
 	c.close()
     bcj('scanble.csv')
@@ -55,18 +70,21 @@ def scanble():
 	while os.path.isfile('saveble'+str(o)+'.csv')==True:
 	    o=o+1
 	saveble = open('saveble'+str(o)+'.csv','a')
+	z=o
 	for beacon in savebeacon:
 	    stamp = time.time()
-	    fichtre = get_mac()
-	    saveble.write(str(fichtre)+","+str(stamp)+","+beacon+"\n")
+	    fichtre = getserial()
+	    saveble.write(str(fichtre)+","+str(stamp)+","+beacon+",sb_"+str(z)+"\n")
 	saveble.close()
 
 
 def ble():
     os.system('sudo systemctl start bluetooth')
+    comp=0
     while 1:
         print '\n=========================== Scan BLE Start ==========================\n'
-        scanble()
+        scanble(comp)
+	comp=comp+1
         print '\n========================= Scan BLE Complete =========================\n'
         time.sleep(10)
 
