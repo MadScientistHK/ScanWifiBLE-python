@@ -1,4 +1,6 @@
 
+
+
 import time
 import os
 import csv
@@ -7,7 +9,7 @@ from send import send
 from checkInternet import checkInternet
 from uuid import getnode as get_mac
 
-def scanWifi():
+def scanWifi(comp):
     #Create a file to save the output of the command
     os.system("sudo rm logScan.txt")
     log = open("logScan.txt","w")
@@ -36,19 +38,19 @@ def scanWifi():
             index.insert(0,k+2)
     for h in range(len(index)):
         txt.insert(index[h],"Not_protected")
-    print "hello there"
+    #print "hello there"
     for m in range(len(txt)):
-        print txt[m]
+        #print txt[m]
         if "on ,\n" == txt[m]:
             index2.insert(0,m+2)
-    print index2
+    #print index2
     for t in range(len(index2)):
-	print "doing some shit"
+	#print "doing some shit"
 	if index2[t] <= len(txt)-2:
 	    if "WPA" not in txt[index2[t]]:
-	        print "i'm doing something with wep"
+	        #print "i'm doing something with wep"
                 txt.insert(index2[t],"WEP")
-	    else: print "nothing here captain"
+	    else:pass # print "nothing here captain"
 	else :pass
 	    #if "WPA" not in txt[index2[t]-1]:
              #   print "i'm doing something with wep"
@@ -93,10 +95,10 @@ def scanWifi():
     savetxt = txt
     while i < nbline:
         stamp = time.time()
-	macID = get_mac()
-	wifi.write(str(macID)+","+str(stamp)+","+str(txt[i]+txt[i+1]+txt[i+2]+txt[i+3]+txt[i+4]+txt[i+5])+"\n")
+	macID = "RPiTest1"
+	wifi.write(str(macID)+","+str(stamp)+","+str(txt[i]+txt[i+1]+txt[i+2]+txt[i+3]+txt[i+4]+txt[i+5])+",wifi_"+str(comp)+"\n")
         #print txt[i]+"\n"
-	print str(macID)+","+str(stamp)+","+str(txt[i]+txt[i+1]+txt[i+2]+txt[i+3]+txt[i+4]+txt[i+5])+"\n"
+	#print str(macID)+","+str(stamp)+","+str(txt[i]+txt[i+1]+txt[i+2]+txt[i+3]+txt[i+4]+txt[i+5])+"\n"
 	i=i+6
     wifi.close()
     #print "Scan done, please check the file 'logWifi.csv'"
@@ -112,21 +114,24 @@ def scanWifi():
 	    o=o+1
         savewifi = open('savewifi'+str(o)+'.csv','a')
 	p=0
+	g=o
         while p < len(savetxt):
             stamp = time.time()
-	    diantre = get_mac()
-            savewifi.write(str(diantre)+","+str(stamp)+","+str(savetxt[p]+savetxt[p+1]+savetxt[p+2]+savetxt[p+3]+savetxt[p+4]+savetxt[p+5])+"\n")
+	    diantre = "RPiTest1"
+            savewifi.write(str(diantre)+","+str(stamp)+","+str(savetxt[p]+savetxt[p+1]+savetxt[p+2]+savetxt[p+3]+savetxt[p+4]+savetxt[p+5])+",sw_"+str(g)+"\n")
 	    p=p+6
         savewifi.close()
 
 
 
-def wifi(): 
+def wifi():
+  comp = 0
   while 1:
    print "\n=========================== Scan Wifi Start =========================\n"
-   scanWifi()
+   scanWifi(comp)
+   comp=comp+1
    print "\n========================= Scan Wifi Complete ========================\n"
    time.sleep(10)
- 
+
 
 
