@@ -12,3 +12,4 @@ sudo systemctl enable app.service
 
 sudo systemctl disable app.service
 
+chmod +x /etc/NetworkManager/dispatcher.d/freewifi.sh
