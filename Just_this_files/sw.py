@@ -106,7 +106,7 @@ def scanWifi(comp):
             stamp = time.time()
 	    diantre = getserial()
 	    try:
-            	savewifi.write(str(diantre)+","+str(stamp)+",true,"+str(savetxt[p]+savetxt[p+1]+savetxt[p+2]+savetxt[p+3]+savetxt[p+4]+savetxt[p+5])+",sw_"+str(g)+"\n")
+            	savewifi.write(str(diantre)+","+str(stamp)+",true,"+str(savetxt[p]+savetxt[p+1]+savetxt[p+2]+savetxt[p+3]+savetxt[p+4]+savetxt[p+5])+"sw_"+str(g)+"\n")
 	    except:error("Can't write savewifi_x_.csv because sth wrong happend in the scan in sw.py")
 	    p=p+6
         savewifi.close()
