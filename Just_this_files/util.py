@@ -40,7 +40,7 @@ def ssw():
     	while 1:
             i=0
             list = os.listdir('/home/pi')
-            while 'b' in list[0]:
+            while '.' in list[0]:
 		try:
             	    if os.path.isfile('savewifi'+str(i)+'.csv')==True and os.path.getsize('/home/pi/savewifi'+str(i)+'.csv') > 0:
 			savewifi = open('savewifi'+str(i)+'.csv','r')
@@ -71,7 +71,7 @@ def ssb():
         while 1:
             i=0
             list = os.listdir('/home/pi')
-            while 'b' in list[0] :
+            while '.' in list[0] :
                 try:
                     if os.path.isfile('saveble'+str(i)+'.csv')==True and os.path.getsize('/home/pi/saveble'+str(i)+'.csv') > 0:
                         saveble = open('saveble'+str(i)+'.csv','r')
