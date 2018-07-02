@@ -15,7 +15,7 @@ def checkInternet():
     connected = False
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(("www.google.com", 80))
+        sock.connect(("Awww.google.com", 80))
         connected = True
         return connected
     except socket.gaierror, e:
@@ -107,8 +107,13 @@ def send(file):
             txt[0] = txt[0].replace("\"","\\\"")
     except:error('Can\'t send at send(util.py), can\'t open the file :'+str(file))
     try:
-        cmd = "sudo curl -H \"Content-Type: application/json; charset=UTF-8\" -X POST -k -d \"{\\\"toInsert\\\":"+str(txt[0])+"}\" https://c-cada2.mybluemix.net/Positionb64"
-        os.system(str(cmd))
+	t1 = time.time()
+	udp(str(txt[0]),5100,'81.250.16.95')
+        #t1 = time.time()
+        #cmd = "sudo curl -H \"Content-Type: application/json; charset=UTF-8\" -X POST -k -d \"{\\\"toInsert\\\":"+str(txt[0])+"}\" https://c-cada2.mybluemix.net/Positionb64"
+        #os.system(str(cmd))
+	t2 = time.time()
+	print t2-t1
     except:
         error('No internet connection')
         print 'No connection'
@@ -171,3 +176,18 @@ def getserial():
     cpuserial = "ERROR000000000"
 
   return cpuserial
+
+#####################################################################################################
+###########################_UDP_SENDER_FUNCTION_#####################################################     
+#####################################################################################################
+
+def udp(data, port=5100, addr='81.250.16.95'):
+    #t1 = time.time()
+    # Create the socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # Make the socket multicast-aware, and set TTL.
+    s.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 20) # Change TTL (=20) to suit
+    # Send the data
+    s.sendto(data, (addr, port))
+    #t2 = time.time()
+    #print t2-t1
