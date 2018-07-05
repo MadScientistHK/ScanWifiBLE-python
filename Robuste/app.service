@@ -1,0 +1,12 @@
+[Unit]
+Description=Scan app
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/bin/bash -c 'python -u /home/pi/s.py'
+WorkingDirectory=/home/pi/
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
