@@ -3,7 +3,7 @@ Description=Scan app
 
 [Service]
 Environment=XDG_RUNTIME_DIR=/run/user/1000
-ExecStart=/bin/bash -c 'python3 -u /home/pi/s.py'
+ExecStart=/bin/bash -c 'python -u /home/pi/s.py'
 WorkingDirectory=/home/pi/
 Restart=always
 User=pi
