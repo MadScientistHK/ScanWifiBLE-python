@@ -234,8 +234,8 @@ def mqttlistner():
     Connected = True   #global variable for the state of the connection
     broker_address= "81.250.16.95"      #Broker address
     port = 1883                         #Broker port
-    user = "Admin_HearAndKnow"          #Connection username
-    password = "DeVinci2018"
+    user = "username"          #Connection username
+    password = "password"
     topic = "8aed96ca0f22ea24fefaa5ccce827c04"         #Connection password
     client = mqttClient.Client("Python")               #create new instance
     client.username_pw_set(user, password=password)    #set username and password 
