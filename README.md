@@ -7,7 +7,7 @@ type the following commands :
 ```sh
 ❯ sudo apt-get update -y && sudo apt-get -y upgrade
 ❯sudo apt-get install libusb-dev -y
-❯sudo apt-get install libglib2.0-dev --fix-missing
+❯sudo apt-get install libglib2.0-dev --fix-missing -y
 ❯sudo apt-get install libudev-dev -y
 ❯sudo apt-get install libical-dev -y 
 ❯sudo apt-get install libreadline-dev -y
