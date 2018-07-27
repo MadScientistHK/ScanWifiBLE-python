@@ -1,5 +1,7 @@
 # ScanWifiBLE-python
 
+https://scribles.net/setting-up-serial-communication-between-raspberry-pi-and-pc/
+
 Use only the files in Ultra Robuste
 
 type the following commands :
