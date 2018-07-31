@@ -1,8 +1,14 @@
 import os
 import time
+import threading
 
 cmd = "sudo iw dev wlan0 station dump | awk '($1 ~ /Station$/) {s = $2;print s;}' >> num.txt"
 
+
+def ap():
+    os.system('sudo create_ap -n wlan0 FreeWifi')
+t = threading.Thread(target=ap,args=())
+t.start()
 while 1:
     i=0
     timestamp = time.time()
