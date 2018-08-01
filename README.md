@@ -26,6 +26,9 @@ sudo apt-get install python-bluez -y
 sudo apt-get install python-pip -y 
 sudo pip install wifi 
 sudo pip install paho-mqtt
+sudo git clone https://github.com/oblique/create_ap.git
+sudo cd create_ap
+sudo make install
 ```
 
 To activate the scan at boot
@@ -41,7 +44,7 @@ To disable the scan at boot :
 ❯sudo systemctl disable app.service
 ```
 
-
+create_ap -n wlan0 MyAccessPoint MyPassPhrase
 
 
 
