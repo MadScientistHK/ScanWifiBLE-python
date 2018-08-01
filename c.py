@@ -4,11 +4,12 @@ import threading
 
 cmd = "sudo iw dev wlan0 station dump | awk '($1 ~ /Station$/) {s = $2;print s;}' >> num.txt"
 
-
 def ap():
     os.system('sudo create_ap -n wlan0 FreeWifi')
+    
 t = threading.Thread(target=ap,args=())
 t.start()
+
 while 1:
     i=0
     timestamp = time.time()
@@ -35,7 +36,6 @@ while 1:
                 g=open('address.txt','a')
                 g.write(str(mac))
                 g.close()
-            #append = True
     f.close()
     os.system('sudo rm num.txt')
     g=open('address.txt','r')
