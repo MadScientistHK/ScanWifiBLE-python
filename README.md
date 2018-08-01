@@ -8,7 +8,7 @@ type the following commands :
 all in one : 
 
 ```sh 
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install libusb-dev -y && sudo apt-get install libglib2.0-dev --fix-missing -y && sudo apt-get install libudev-dev -y && sudo apt-get install libical-dev -y && sudo apt-get install libreadline-dev -y && sudo apt-get install libdbus-glib-1-dev -y && sudo apt-get install bluetooth bluez blueman -y && sudo apt-get install python-bluez -y && sudo apt-get install python-pip -y && sudo pip install wifi && sudo pip install paho-mqtt
+sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install git -y && sudo apt-get install libusb-dev -y && sudo apt-get install libglib2.0-dev --fix-missing -y && sudo apt-get install libudev-dev -y &sudo apt-get install git& sudo apt-get install libical-dev -y && sudo apt-get install libreadline-dev -y && sudo apt-get install libdbus-glib-1-dev -y && sudo apt-get install bluetooth bluez blueman -y && sudo apt-get install python-bluez -y && sudo apt-get install python-pip -y && sudo pip install wifi && sudo pip install paho-mqtt
 ```
 
 One by one :
@@ -26,6 +26,7 @@ sudo apt-get install python-bluez -y
 sudo apt-get install python-pip -y 
 sudo pip install wifi 
 sudo pip install paho-mqtt
+sudo apt-get install git -y
 sudo git clone https://github.com/oblique/create_ap.git
 sudo cd create_ap
 sudo make install
