@@ -48,6 +48,7 @@ To disable the scan at boot :
 create_ap -n wlan0 MyAccessPoint MyPassPhrase
 
 
+$ sudo apt-get install git lighttpd php7.0-cgi hostapd dnsmasq
 
 
 
