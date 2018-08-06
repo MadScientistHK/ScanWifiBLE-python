@@ -1,27 +1,19 @@
 from util import *
 from wif import w
 from ble import ble
-from cbis import *
 import threading
 import time
 import os
-#from hcho import gaz
 
 os.system('sudo systemctl start bluetooth')
-#os.system('sudo rm /etc/network/interfaces')
-#os.system('sudo cp /home/pi/interfaces /etc/network/')
 
-
+#Main function that start every thread to scan bluetooth and wifi, send saves and subscribe to the mqtt server
 def Start():
  scanble = threading.Thread(target=ble,args=())
  scanwifi = threading.Thread(target=w,args=())
  sendsaveble = threading.Thread(target=ssb,args=())
  sendsavewifi = threading.Thread(target=ssw,args=())
  mqttlistenerthread = threading.Thread(target=mqttlistener,args=())
- connectopenwifi = threading.Thread(target=openWifi,args=())
-
- cc = threading.Thread(target=c,args=())
-
  while 1:
      try:
          if mqttlistenerthread.is_alive() == False:
@@ -45,11 +37,9 @@ def Start():
              scanwifi.start()
      except:error('Can\'t run scanWifi thread in s.py')
      try:
-	 a=0
-#	 cc.start()
-         #if connectopenwifi.is_alive() == False:
-         #    print 'openwifi run'
-         #    connectopenwifi.start()
+         if connectopenwifi.is_alive() == False:
+             print 'openwifi run'
+             connectopenwifi.start()
      except:error('failed to search open wifi')
 
 Start()
