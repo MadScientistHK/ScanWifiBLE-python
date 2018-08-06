@@ -143,7 +143,7 @@ def getMqttIp():
 	    reponse = f.readline()
 	    f.close()
 	if len(reponse) < 2 :
-	    reponse = '{"idp_recieved":"not_recieved_mqtt_broken","mqttip":"81.250.16.95"'
+	    reponse = '{"idp_recieved":"not_recieved_mqtt_broken","mqttip":"81.250.16.95"}'
 	    #os.system('sudo rm reponsemqtt.txt')
     except:
 	error('can not open the file reponsemqtt.txt')
@@ -161,20 +161,27 @@ def getMqttIp():
 
 def send(file):
     try:
+	
+	#Open the file to send
         data = []
         if os.path.isfile(file)==True:
             data = open(file,'r')
         txt = data.readlines()
+	
+	#Check if the file is empty or corrupt
         if txt == [] or len(txt[0]) < 10:
             os.system('sudo rm '+str(file))
             print 'empty file removed'
     except:error('Can\'t send at send(util.py), can\'t open the file :'+str(file))
+    
     try:
+	#Check if the mqtt is available then sends the data by udp
         if checkMqtt() != False:
             t1 = time.time()
             udp(str(txt[0]),"udpmqttserver.ddns.net")
 	    print '\n\n\nSENT BY UDP\n\n\n'
         else:
+	#Else it sends the data by http
             t1 = time.time()
 	    txt[0] = txt[0].replace("\"","\\\"")
             cmd = "sudo curl -H \"Content-Type: application/json; charset=UTF-8\" -X POST -k -d \"{\\\"toInsert\\\":"+str(txt[0])+"}\" https://c-cada2.mybluemix.net/Positionb64 > reponsemqtt.txt"
@@ -182,6 +189,7 @@ def send(file):
 	    os.system('sudo rm '+str(file))
 	    print '\n\n\nSENT BY HTTP\n\n\n'
         t2 = time.time()
+	#Give the seconds it spent to send the data
         print 'send : '+str(t2-t1)
     except:
         error('No internet connection')
@@ -252,7 +260,7 @@ def getserial():
   return cpuserial
 
 #####################################################################################################
-###########################_UDP_SENDER_FUNCTION_#####################################################     
+###########################_UDP_SENDER_FUNCTION_#####################################################
 #####################################################################################################
 
 def udp(data, addr):
@@ -260,26 +268,45 @@ def udp(data, addr):
     s.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 20) # Change TTL (=20) to suit
     s.sendto(data, (addr, 5100))
 
-
-
-
-
+#####################################################################################################
+###########################_ON_CONNECT_FUNCTION_#####################################################
+#####################################################################################################
 
 def on_connect(mqttc, obj, flags, rc):
     print("rc: " + str(rc))
+
+#####################################################################################################
+###########################_ON_MESSAGE_FUNCTION_#####################################################
+#####################################################################################################
 
 def on_message(mqttc, obj, msg):
     print(str(msg.payload))
     getFileName(msg.payload)
 
+#####################################################################################################
+###########################_ON_PUBLISH_FUNCTION_#####################################################
+#####################################################################################################	
+
 def on_publish(mqttc, obj, mid):
     print("mid: " + str(mid))
+
+#####################################################################################################
+###########################_ON_SUBSCRIBE_FUNCTION_###################################################
+#####################################################################################################
 
 def on_subscribe(mqttc, obj, mid, granted_qos):
     print("Subscribed: " + str(mid) + " " + str(granted_qos))
 
+#####################################################################################################
+###########################_ON_LOG_FUNCTION_#########################################################
+#####################################################################################################
+
 def on_log(mqttc, obj, level, string):
     print(string)
+
+#####################################################################################################
+###########################_MQTT_LISTENER_FUNCTION_#####################################################
+#####################################################################################################
 
 def mqttlistener():
     mqttc = mqtt.Client()
@@ -300,57 +327,9 @@ def mqttlistener():
     mqttc.loop_forever(1)
 
 #####################################################################################################
-###########################_MQTT_ON_CONNECT_CALLBACK_FUNCTION_#######################################     
+###########################_HOW_MANY_FUNCTION_#######################################################
 #####################################################################################################
-
-def Pon_connect(client, userdata, flags, rc):
-    if rc == 0:
-        print("Connected to broker")
-    else:
-        print("Connection failed")
-
-#####################################################################################################
-###########################_MQTT_ON_MESSAGE_CALLBACK_FUNCTION_#######################################
-#####################################################################################################
-
-def Pon_message(client, userdata, message):
-    print "Message received: "  + message.payload
-    getFileName(message.payload)
-
-#####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
-#####################################################################################################
-
-def Pmqttlistener():
-	print howMany()
-    	Connected = True   #global variable for the state of the connection
-    	ip = getMqttIp()
-    	broker_address= str(ip)      #Broker address
-    	port = 1883                         #Broker port
-    	user = "rasp2" # +str(random.randint(0,100000000))          #Connection username
-    	password = "DeVinci2018"
-    	topic = "8aed96ca0f22ea24fefaa5ccce827c04"         #Connection password
-    	client = mqttClient.Client("Rasp2"+str(random.randint(0,100000000)))               #create new instance
-    	client.username_pw_set(user, password=password)    #set username and password 
-    	client.on_connect= on_connect                      #attach function to callback
-    	client.on_message= on_message                      #attach function to callback
-    	client.qos=2
-    	client.connect(broker_address, port)          #connect to broker
-    	client.loop_start()       #start the loop
-    	while Connected != True:    #Wait for connection
-            time.sleep(0.1)
-    	client.subscribe(topic)
-    	try:
-    	    while True:
-		time.sleep(1)
-    	except:
-    	    print "exiting"
-    	    client.disconnect()
-    	    client.loop_stop()
-	    mqttlistener()
-
-
-
+	
 def howMany():
     filenames = ['wifi_','ble_']
     dir = os.listdir('/home/pi')
@@ -361,7 +340,7 @@ def howMany():
     return nb
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_SEARCH_WIFI_FUNCTION_####################################################
 #####################################################################################################
 
 def Search():
@@ -370,11 +349,10 @@ def Search():
     cells = wifi.Cell.all('wlan0')
     for cell in cells:
         wifilist.append(cell)
-        #print( str(cell.ssid)+", " )
     return wifilist
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_FindFromSearchList_FUNCTION_#############################################
 #####################################################################################################
 
 def FindFromSearchList(ssid):
@@ -387,7 +365,7 @@ def FindFromSearchList(ssid):
     return False
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_FindFromSavedLis_FUNCTION_###############################################
 #####################################################################################################
 
 def FindFromSavedList(ssid):
@@ -399,7 +377,7 @@ def FindFromSavedList(ssid):
     return False
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_CONNECT_FUNCTION_########################################################
 #####################################################################################################
 
 def Connect(ssid, password=None):
@@ -444,7 +422,7 @@ def Connect(ssid, password=None):
     return False
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_ADD_FUNCTION_############################################################
 #####################################################################################################
 
 def Add(cell, password=None):
@@ -456,7 +434,7 @@ def Add(cell, password=None):
     return scheme
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_DELETE_FUNCTION_#########################################################
 #####################################################################################################
 
 def Delete(ssid):
@@ -472,7 +450,7 @@ def Delete(ssid):
     return False
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_SEARCH_OPEN_WIFI_FUNCTION_###############################################
 #####################################################################################################
 
 def Search_open():
@@ -485,7 +463,7 @@ def Search_open():
     return wifiopenlist
 
 #####################################################################################################
-###########################_MQTT_LISTENER_FUNCTION_##################################################
+###########################_CONNECT_TO_OPEN_WIFI_FUNCTION_###########################################
 #####################################################################################################
 
 def openWifi():
