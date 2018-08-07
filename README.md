@@ -1,8 +1,6 @@
 # ScanWifiBLE-python
 
 
-Use only the files in Ultra Robuste
-
 type the following commands :
 
 all in one : 
