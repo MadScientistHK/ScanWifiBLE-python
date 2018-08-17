@@ -21,9 +21,13 @@ sudo apt-get install libreadline-dev -y
 sudo apt-get install libdbus-glib-1-dev -y 
 sudo apt-get install bluetooth bluez blueman -y 
 sudo apt-get install python-bluez -y 
-sudo apt-get install python-pip -y 
-sudo pip install wifi 
-sudo pip install paho-mqtt
+sudo apt-get install python3-pip -y 
+sudo pip3 install wifi
+sudo pip3 install pybluez
+sudo pip3 install pygatt
+sudo pip3 install bluepy
+sudo pip3 install pexpect
+sudo pip3 install paho-mqtt
 ```
 
 To activate the scan at boot
